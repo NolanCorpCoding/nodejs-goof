@@ -36,6 +36,10 @@ exports.index = function (req, res, next) {
 
 exports.loginHandler = function (req, res, next) {
   if (validator.isEmail(req.body.username)) {
+    var password = req.body.password
+    if (typeof password !== "string"){
+	return res.status(401).send()
+    }
     User.find({ username: req.body.username, password: req.body.password }, function (err, users) {
       if (users.length > 0) {
         const redirectPage = req.body.redirectPage
